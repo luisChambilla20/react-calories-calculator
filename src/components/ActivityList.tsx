@@ -1,20 +1,16 @@
 import { Activity } from "../types";
 import { categories } from "../db/db";
-import { useMemo, Dispatch } from "react";
+import { useMemo } from "react";
 import { PencilSquareIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { ActivityActions } from "../reducers/activity-reducer";
+import { useActivity } from "../hooks/useActivity";
 
-type ActivityListProps = {
-  activities: Activity[];
-  dispatch: Dispatch<ActivityActions>;
-};
+export const ActivityList = () => {
+  const { state, dispatch } = useActivity();
 
-export const ActivityList = ({ activities, dispatch }: ActivityListProps) => {
-  
   const categoryName = useMemo(
     () => (category: Activity["category"]) =>
       categories.map((item) => (item.id === category ? item.name : "")),
-    [activities]
+    [state.activities]
   );
 
   const handleEdit = (id: Activity["id"]) => {
@@ -31,7 +27,7 @@ export const ActivityList = ({ activities, dispatch }: ActivityListProps) => {
         Comida y Actividades
       </h1>
 
-      {activities.map((item) => (
+      {state.activities.map((item) => (
         <div
           key={item.id}
           className="px-5 py-10 bg-white mt-5 flex justify-between border rounded-2xl"

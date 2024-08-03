@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useReducer } from "react";
+import { useEffect, useMemo } from "react";
 import { Form } from "./components/Form";
-import { activityReducer, initialState } from "./reducers/activity-reducer";
 import { ActivityList } from "./components/ActivityList";
 import { ActivityTracker } from "./components/ActivityTracker";
+import { useActivity } from "./hooks/useActivity";
 
 export const App = () => {
-  const [state, dispatch] = useReducer(activityReducer, initialState);
+  const { state, dispatch } = useActivity();
 
   useEffect(() => {
     localStorage.setItem("state", JSON.stringify(state.activities));
@@ -39,18 +39,18 @@ export const App = () => {
 
       <section className="bg-lime-500 py-20 px-5">
         <div className="max-w-4xl mx-auto">
-          <Form dispatch={dispatch} state={state} />
+          <Form />
         </div>
       </section>
 
       <section className="bg-gray-800 p-10">
         <div className="max-w-4xl m-auto">
-          <ActivityTracker activities={state.activities} />
+          <ActivityTracker />
         </div>
       </section>
 
       <section className="p-10 max-w-4xl mx-auto">
-        <ActivityList activities={state.activities} dispatch={dispatch} />
+        <ActivityList />
       </section>
     </>
   );

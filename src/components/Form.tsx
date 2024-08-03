@@ -1,14 +1,9 @@
-import { Dispatch, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { categories } from "../db/db";
 import { Activity } from "../types/index";
-import { ActivityActions, ActivityState } from "../reducers/activity-reducer";
-
-type FormProps = {
-  dispatch: Dispatch<ActivityActions>;
-  state: ActivityState;
-};
+import { useActivity } from "../hooks/useActivity";
 
 const initialForm: Activity = {
   id: uuidv4(),
@@ -17,7 +12,8 @@ const initialForm: Activity = {
   calories: 0,
 };
 
-export const Form = ({ dispatch, state }: FormProps) => {
+export const Form = () => {
+  const { state, dispatch } = useActivity();
   const [form, setForm] = useState<Activity>(initialForm);
 
   useEffect(() => {
